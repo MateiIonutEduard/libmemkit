@@ -15,7 +15,7 @@ static pthread_mutex_t g_pool_mutex = PTHREAD_MUTEX_INITIALIZER;
 #define UNLOCK_POOL() (void)0
 #endif
 
-#ifdef DEBUG_MEMORY
+#ifdef DEBUG_MEMORY_MANAGER
 #define DEBUG_LOG(fmt, ...) fprintf(stderr, "[MEM] " fmt "\n", ##__VA_ARGS__)
 #else
 #define DEBUG_LOG(...) (void)0
