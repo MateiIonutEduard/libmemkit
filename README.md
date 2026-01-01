@@ -17,17 +17,29 @@ Provides smart pointers, memory pooling, and arena allocators with security-firs
 
 ```c
 #include "handle_memory.h"
+#include <stdio.h>
 
-int main() {
+int main(void) {
     MemoryPool pool;
-    mem_pool_init(&pool, 16);
-    
-    MemoryPointer* ptr = mem_pointer_create("my_buffer", 1024);
-    mem_pointer_allocate(ptr, 1024, &pool);
-    
-    // Use ptr->container->data...
-    
-    mem_pointer_destroy(ptr, &pool);
+    if (!mem_pool_init(&pool, 16)) {
+        fprintf(stderr, "Failed to initialize memory pool\n");
+        return 1;
+    }
+
+    MemoryPointer* buffer = mem_pointer_create("data_buffer", 1024);
+    if (!mem_pointer_allocate(buffer, 1024, &pool)) {
+        fprintf(stderr, "Allocation failed\n");
+        return 1;
+    }
+
+    // Use allocated memory
+    int* data = (int*)buffer->container->data;
+    data[0] = 42;
+    printf("Allocated %zu bytes, stored: %d\n", 
+           buffer->container->size, data[0]);
+
+    // Cleanup
+    mem_pointer_destroy(buffer, &pool);
     mem_pool_destroy(&pool);
     return 0;
 }
