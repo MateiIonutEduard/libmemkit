@@ -1,0 +1,10 @@
+@PACKAGE_INIT@
+
+include("${CMAKE_CURRENT_LIST_DIR}/LibMemKitTargets.cmake")
+
+check_required_components(libmemkit)
+
+# Provide backward compatibility variables
+set(libmemkit_FOUND TRUE)
+set(libmemkit_INCLUDE_DIRS "@PACKAGE_INCLUDE_INSTALL_DIR@")
+set(libmemkit_LIBRARIES libmemkit::libmemkit)
