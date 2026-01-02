@@ -5,13 +5,13 @@ project(libmemkit LANGUAGES C)
 add_library(libmemkit memkit.c)
 
 # Include directory
-target_include_directories(MemoryManager 
+target_include_directories(libmemkit 
     PUBLIC 
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
 )
 
 # Compiler options
-target_compile_options(MemoryManager PRIVATE 
+target_compile_options(libmemkit PRIVATE 
     -Wall -Wextra -std=c99
 )
 
@@ -20,13 +20,13 @@ option(ENABLE_THREAD_SAFE "Thread-safe operations" ON)
 if(ENABLE_THREAD_SAFE)
     target_compile_definitions(libmemkit PRIVATE MEM_THREAD_SAFE=1)
     find_package(Threads REQUIRED)
-    target_link_libraries(MemoryManager PRIVATE Threads::Threads)
+    target_link_libraries(libmemkit PRIVATE Threads::Threads)
 endif()
 
 # Debug features
 option(ENABLE_DEBUG "Debug features" OFF)
 if(ENABLE_DEBUG)
-    target_compile_definitions(MemoryManager PRIVATE DEBUG_MEMORY_MANAGER=1)
+    target_compile_definitions(libmemkit PRIVATE DEBUG_MEMORY_MANAGER=1)
 endif()
 
 # Example (from test/example.c)
